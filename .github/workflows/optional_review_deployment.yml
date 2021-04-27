@@ -50,7 +50,7 @@ jobs:
 
       - name: 'Comment PR'
         uses: actions/github-script@v3
-        if: github.event_name == 'pull_request' && github.event.action == 'open'
+        if: contains( github.event.pull_request.labels.*.name, 'review' )
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -61,7 +61,7 @@ jobs:
               repo: context.repo.repo,
               body: `Review env: https://${url}`
             });
-        if: contains( github.event.pull_request.labels.*.name, 'review' )
+        
       
       - name: Dismiss
         uses: werf/actions/dismiss@v1.2
