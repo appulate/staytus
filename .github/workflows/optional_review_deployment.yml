@@ -23,11 +23,13 @@ jobs:
           github_repository_id=$(echo ${GITHUB_REPOSITORY} | sed -r s/[^a-zA-Z0-9]+/-/g | sed -r s/^-+\|-+$//g | tr A-Z a-z)
           kube_domain=${{ env.KUBE_DOMAIN }}
           echo WERF_SET_ENV_URL=global.env_url=${github_repository_id}-${pr_id}.${kube_domain} >> $GITHUB_ENV
+        if: contains( github.event.pull_request.labels.*.name, 'review' )
   
       - name: Install werf CLI  
         uses: werf/actions/install@v1.2
         with:
           channel: ea  
+        if: contains( github.event.pull_request.labels.*.name, 'review' )
       
       - name: Run werf
         run: |
@@ -44,6 +46,7 @@ jobs:
           WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}          
           WERF_SET_ASPNETCORE_ENVIRONMENT: "global.aspnetcore_env=Staging"
           WERF_LOG_VERBOSE: "on"
+        if: contains( github.event.pull_request.labels.*.name, 'review' )
 
       - name: 'Comment PR'
         uses: actions/github-script@v3
@@ -58,3 +61,11 @@ jobs:
               repo: context.repo.repo,
               body: `Review env: https://${url}`
             });
+        if: contains( github.event.pull_request.labels.*.name, 'review' )
+      
+      - name: Dismiss
+        uses: werf/actions/dismiss@v1.2
+        with:
+          env: review-${{ github.event.number }}
+          kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
+        if: "!contains( github.event.pull_request.labels.*.name, 'review' )"
