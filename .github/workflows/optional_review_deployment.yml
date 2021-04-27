@@ -5,6 +5,10 @@ on:
       - labeled
       - unlabeled
       - synchronize
+
+env:
+  KUBE_DOMAIN: k8s-cluster01.appulate.dev
+  
 jobs:
 
   optional_converge_or_dismiss:
