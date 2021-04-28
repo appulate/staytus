@@ -69,6 +69,8 @@ jobs:
       
       - name: Dismiss
         uses: werf/actions/dismiss@v1.2
+        env:
+          WERF_WITH_NAMESPACE: true
         with:
           env: review-${{ github.event.number }}
           kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
