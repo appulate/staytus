@@ -27,8 +27,8 @@ spec:
           - name: DB_PASSWORD
             value: {{ include "app.databasePassword" . | quote }}
           - name: STAYTUS_SMTP_HOSTNAME
-            value: {{ .Values.smtpHostname | quote }}
+            value: {{ .Values.smtp.hostname | quote }}
           - name: STAYTUS_SMTP_USERNAME
-            value: {{ .Values.smtpUsername | quote }}
+            value: {{ .Values.smtp.username | quote }}
           - name: STAYTUS_SMTP_PASSWORD
             value: {{ .Values.smtp.password | quote }}
