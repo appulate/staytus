@@ -36,12 +36,14 @@ jobs:
           pr_id=${{ github.event.number }}
           github_repository_id=$(echo ${GITHUB_REPOSITORY} | sed -r s/[^a-zA-Z0-9]+/-/g | sed -r s/^-+\|-+$//g | tr A-Z a-z)
           echo WERF_SET_ENV_URL=global.env_url=${github_repository_id}-${pr_id}.${{ env.KUBE_DOMAIN }} >> $GITHUB_ENV
+          echo WERF_ENV=review-${{ github.event.number }} >> $GITHUB_ENV
         if: contains( github.event.pull_request.labels.*.name, 'review' ) 
 
       - name: Prepare for production
         run: |
           echo WERF_SET_MARIADB_ENABLED=mariadb.enabled=false >> $GITHUB_ENV
           echo WERF_SET_ENV_URL=global.env_url=status.${{ env.KUBE_DOMAIN }} >> $GITHUB_ENV
+          echo WERF_ENV=production >> $GITHUB_ENV
         if: github.ref == 'refs/heads/main'
       
       - name: Run werf
@@ -52,7 +54,7 @@ jobs:
           werf helm dependency update .helm
           werf converge
         env:
-          WERF_ENV: review-${{ github.event.number }}
+          
           WERF_REPO: ghcr.io/${{ github.repository }}
           WERF_SECRET_KEY: ${{ secrets.WERF_SECRET_KEY }}
           WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}          
@@ -80,4 +82,4 @@ jobs:
         with:
           env: review-${{ github.event.number }}
           kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
-        if: contains( github.event.pull_request.labels.*.name, 'review' ) || github.ref == 'refs/heads/main'
+        if: "!contains( github.event.pull_request.labels.*.name, 'review' )"
