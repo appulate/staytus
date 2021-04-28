@@ -41,14 +41,12 @@ jobs:
           werf helm secret file decrypt .helm/secret/docker.config.json > "$DOCKER_CONFIG/config.json"
           werf helm repo add bitnami https://charts.bitnami.com/bitnami
           werf helm dependency update .helm
-          werf render
           werf converge
         env:
           WERF_ENV: review-${{ github.event.number }}
           WERF_REPO: ghcr.io/${{ github.repository }}
           WERF_SECRET_KEY: ${{ secrets.WERF_SECRET_KEY }}
           WERF_KUBE_CONFIG_BASE64: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}          
-          WERF_SET_ASPNETCORE_ENVIRONMENT: "global.aspnetcore_env=Staging"
           WERF_LOG_VERBOSE: "on"
         if: contains( github.event.pull_request.labels.*.name, 'review' )
 
@@ -65,7 +63,6 @@ jobs:
               repo: context.repo.repo,
               body: `Review env: https://${url}`
             });
-        
       
       - name: Dismiss
         uses: werf/actions/dismiss@v1.2
