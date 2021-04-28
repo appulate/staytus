@@ -36,5 +36,6 @@ mariadb:
         - ReadWriteOnce
       size: 1Gi
   
-smtpHostname: smtp.mailgun.org
-smtpUsername: status@mailgun.appulate.com
+smtp:
+    hostname: smtp.mailgun.org
+    username: status@mailgun.appulate.com
