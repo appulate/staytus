@@ -19,7 +19,7 @@ Return the MariaDB Hostname
         {{- printf "%s" (include "app.mariadb.fullname" .) -}}
     {{- end -}}
 {{- else -}}
-    {{- printf "%s" .Values.externalDatabase.host -}}
+    {{- printf "%s" .Values.mariadb.externalDatabase.host -}}
 {{- end -}}
 {{- end -}}
 
@@ -30,7 +30,7 @@ Return the MariaDB Database Name
 {{- if .Values.mariadb.enabled }}
     {{- printf "%s" .Values.mariadb.auth.database -}}
 {{- else -}}
-    {{- printf "%s" .Values.externalDatabase.database -}}
+    {{- printf "%s" .Values.mariadb.externalDatabase.database -}}
 {{- end -}}
 {{- end -}}
 
@@ -41,7 +41,7 @@ Return the MariaDB User
 {{- if .Values.mariadb.enabled }}
     {{- printf "%s" .Values.mariadb.auth.username -}}
 {{- else -}}
-    {{- printf "%s" .Values.externalDatabase.user -}}
+    {{- printf "%s" .Values.mariadb.externalDatabase.username -}}
 {{- end -}}
 {{- end -}}
 
@@ -52,7 +52,7 @@ Return the MariaDB Password
 {{- if .Values.mariadb.enabled }}
     {{- printf "%s" .Values.mariadb.auth.password -}}
 {{- else -}}
-    {{- printf "%s" .Values.externalDatabase.password -}}
+    {{- printf "%s" .Values.mariadb.externalDatabase.password -}}
 {{- end -}}
 {{- end -}}
 
