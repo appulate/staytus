@@ -1,6 +1,6 @@
 # Staytus
 
-Staytus is a complete solution for publishing the latest information about
+test is a complete solution for publishing the latest information about
 any issues with your web applications, networks or services. Along with
 absolutely beautiful public & admin interfaces, Staytus is a powerful tool for
 any organization with customers that rely on them to be online 24/7.
